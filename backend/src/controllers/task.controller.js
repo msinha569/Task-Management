@@ -67,18 +67,22 @@ const getYouTasks = asyncHandler(async (req, res) => {
     })
   );
 })
-
 const getTaskById = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const task = await Task.findById(id);
+  const task = await Task.findById(id)
+    .populate("createdBy", "username avatar")
+    .populate("assignedTo", "username avatar");
 
   if (!task) {
     throw new ApiError(404, "Task not found");
   }
 
-  const isCreator = task.createdBy.toString() === req.user._id.toString();
-  const isAssigned = task.assignedTo.toString() === req.user._id.toString();
+  const isCreator =
+    task.createdBy._id.toString() === req.user._id.toString();
+
+  const isAssigned =
+    task.assignedTo._id.toString() === req.user._id.toString();
 
   if (!isCreator && !isAssigned) {
     throw new ApiError(403, "You are not authorized to view this task");

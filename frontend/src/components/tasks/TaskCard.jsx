@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useTasks from "../../hooks/useTasks";
 import useAuth from "../../hooks/useAuth";
 
 const TaskCard = ({ task, onEdit }) => {
+  const navigate = useNavigate();
   const { removeTask, completeTask } = useTasks();
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { user } = useAuth();
@@ -21,8 +23,15 @@ const TaskCard = ({ task, onEdit }) => {
     window.location.reload();
   };
 
+  const handleViewDetails = () => {
+    navigate(`/tasks/${task._id}`);
+  };
+
   return (
-    <div className={`p-3 border rounded-lg ${task.status === "completed" ? "bg-green-50 border-green-300" : "bg-gray-50"}`}>
+    <div 
+      onClick={handleViewDetails}
+      className={`p-3 border rounded-lg cursor-pointer transition hover:shadow-md ${task.status === "completed" ? "bg-green-50 border-green-300" : "bg-gray-50"}`}
+    >
       <h3 className={`font-medium ${task.status === "completed" ? "line-through text-gray-500" : "text-gray-800"}`}>
         {task.title}
       </h3>
@@ -56,7 +65,10 @@ const TaskCard = ({ task, onEdit }) => {
         </div>
       )}
 
-      <div className="flex justify-between items-center mt-3">
+      <div 
+        className="flex justify-between items-center mt-3"
+        onClick={(e) => e.stopPropagation()}
+      >
         {task.assignedTo.username ===user.username && <button
           onClick={handleCompleteTask}
           className={`text-xs px-3 py-1 rounded font-medium ${

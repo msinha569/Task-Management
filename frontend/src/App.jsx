@@ -7,6 +7,7 @@ import Register from "./pages/Register";
 import CreateTask from "./pages/CreateTask";
 import TaskList from "./pages/TaskList";
 import TasksCreatedByYou from "./pages/TasksCreatedByYou";
+import TaskDetails from "./pages/TaskDetails";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/" element={<TaskList/>} />
             <Route path="/you" element={<TasksCreatedByYou/>} />
             <Route path="/create" element={<CreateTask/>} />
+            <Route path="/tasks/:id" element={<TaskDetails/>} />
         </Route>
         </Route>
 
