@@ -8,7 +8,7 @@ export const app = express()
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://task-management-4bh0.onrender.com"],
+    origin: ["http://localhost:5173", "https://task-management-4bh0.onrender.com", "https://task-management-satn.vercel.app"],
     credentials: true,
   })
 );
